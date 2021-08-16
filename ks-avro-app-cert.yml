@@ -1,0 +1,50 @@
+core:
+  application:
+    bootstrapServers: sanlcckfbrd0001.santander.dev.corp:9093,sanlcckfbrd0002.santander.dev.corp:9093,sanlcckfbrd0003.santander.dev.corp:9093
+    kerberos: true
+    #ssl: true
+    schemaRegistry: true
+
+  logging:
+    darwin:
+      bootstrapServers: sanlcccloki0001.santander.pre.corp:9092
+      topic: nuar-spark-log
+
+  kerberos:
+    conf: /tmp/krb5.conf
+    keytab: /tmp/apl-horus-dev.keytab
+    principal: apl_horus_dev@PREBCE.PRESAN.SANTANDER.CORP
+    serviceName: kafka
+
+  schemaRegistry:
+    basicAuthCredentialsSource: USER_INFO
+    userInfoConfig: apl_horus_dev:LaLuna?23
+    url: https://sanlcccfscd0001.santander.dev.corp:8081/
+
+  #ssl:
+    #truststore: /tmp/truststore.jks
+    #password: changeit
+
+  #web:
+    #port: 8080
+
+  # Binary files must be encoded in base64 and have to be a '.base64' extension
+  # base64 apl.keytab > apl-keytab-cert.base64
+  # upload to the configuration service repository as 'apl-keytab-cert.base64'
+  # Other non binary files can be upload to the configuration services without base64 encoding
+  # For instance, krb5.conf: upload to the configuration service repository as 'krb5-cert.conf'
+  # Note: Location in the pod filesystem must be in always in /tmp folder
+  # 
+  files:
+    - name: apl-horus-keytab.base64
+      location: /tmp/apl-horus-dev.keytab
+    - name: krb5.conf
+      location: /tmp/krb5.conf
+    - name: truststore-jks.base64
+      location: /tmp/truststore.jks      
+
+# Project Configuration
+# Modify and add data related to your project
+# This section has to be in line with structures defined in GlobalApplicationConfig.java
+application:
+  offset: latest
